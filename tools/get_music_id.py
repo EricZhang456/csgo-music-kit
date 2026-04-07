@@ -70,13 +70,13 @@ with open(os.path.join(WORKING_DIR, "scripting", "csgo_music_kit_mapping.sp"), "
     sm_mapping.write("void MakeMusicKitMapping(StringMap map) {\n")
     # default music kit needs special handling
     sm_mapping.write("    map.SetValue(\"valve_csgo\", 1);\n")
-    for sm_lang, source_lang in music_definitions.items():
-        music_kit_name = source_lang.get("name")
+    for key, value in music_definitions.items():
+        music_kit_name: str | None = value.get("name")
         if not music_kit_name:
-            raise RuntimeError(f"Encountered empty value when getting music kit name for {sm_lang}")
-        if sm_lang in {"1", "2"}:
+            raise RuntimeError(f"Encountered empty value when getting music kit name for {key}")
+        if key in {"1", "2"} or music_kit_name.startswith("valve_csgo"):
             continue
-        sm_mapping.write(f"    map.SetValue(\"{music_kit_name}\", {sm_lang});\n")
+        sm_mapping.write(f"    map.SetValue(\"{music_kit_name}\", {key});\n")
     sm_mapping.write("}\n")
 
 CSGO_MUSIC_KIT_PHRASES_NAME = "csgo-music-kit-kits.phrases.txt"

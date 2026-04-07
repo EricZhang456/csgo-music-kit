@@ -1,0 +1,19 @@
+"Phrases"
+{
+    "CSGO_MUSIC_KIT_CHAT_HINT"
+    {
+        "en"    "Type !musickit to select your music kit."
+    }
+    "CSGO_MUSIC_KIT_PREF_MENU_TITLE"
+    {
+        "en"    "Show music kit hint"
+    }
+    "CSGO_MUSIC_KIT_MENU_TITLE"
+    {
+        "en"    "Select Music Kit"
+    }
+    "CSGO_MUSIC_KIT_SELECTED"
+    {
+        "en"    "%s (Selected)"
+    }
+}
