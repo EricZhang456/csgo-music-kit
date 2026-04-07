@@ -75,7 +75,7 @@ public void Event_PlayerSpawn(Event event, const char[] name, bool dontBroadcast
 }
 
 public void OnClientCookiesCached(int client) {
-    if (!IsValidClient(client)) {
+    if (IsFakeClient(client) || IsClientSourceTV(client) || IsClientReplay(client)) {
         return;
     }
     // give clients a default music kit
