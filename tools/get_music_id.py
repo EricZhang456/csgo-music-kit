@@ -77,7 +77,7 @@ with open(os.path.join(WORKING_DIR, "scripting", "csgo_music_kit_mapping.sp"), "
         if key in {"1", "2"} or music_kit_name.startswith("valve_csgo"):
             continue
         sm_mapping.write(f"    map.SetValue(\"{music_kit_name}\", {key});\n")
-    sm_mapping.write("}\n")
+    sm_mapping.write("}\n\n")
     sm_mapping.write("void MakeMusicKitList(ArrayList list) {\n")
     sm_mapping.write("    list.PushString(\"valve_csgo\");\n")
     for key, value in music_definitions.items():

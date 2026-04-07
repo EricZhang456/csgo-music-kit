@@ -16,6 +16,7 @@ public Plugin myinfo = {
 };
 
 StringMap musicKitMapping;
+ArrayList musicKitList;
 
 ConVar cvarShowHintByDefault;
 
@@ -37,7 +38,9 @@ public void OnPluginStart() {
     LoadTranslations("csgo-music-kit-kits.phrases");
 
     musicKitMapping = new StringMap();
+    musicKitList = new ArrayList(ByteCountToCells(BASE_STR_LEN));
     MakeMusicKitMapping(musicKitMapping);
+    MakeMusicKitList(musicKitList);
 
     cvarShowHintByDefault = CreateConVar("sm_music_kit_select_hint_default", "1", "Tell clients they can select music kits by default.");
 
@@ -92,15 +95,13 @@ public Action Cmd_MusicKit(int client, int args) {
     Format(menuTitle, sizeof(menuTitle), "%T", "CSGO_MUSIC_KIT_MENU_TITLE", client);
     cookieClientMusicKit.Get(client, clientMusicKit, sizeof(clientMusicKit));
 
-    StringMapSnapshot musicKitEntries = musicKitMapping.Snapshot();
-
     Menu menu = new Menu(Menu_MusicKitMenu);
     menu.SetTitle(menuTitle);
 
-    for (int i = 0; i < musicKitEntries.Length; i++) {
+    for (int i = 0; i < musicKitList.Length; i++) {
         int drawStyle = ITEMDRAW_DEFAULT;
         char musicKitKey[BASE_STR_LEN], musicKitLocStr[BASE_STR_LEN], musicKitDispStr[BASE_STR_LEN];
-        musicKitEntries.GetKey(i, musicKitKey, sizeof(musicKitKey));
+        musicKitList.GetString(i, musicKitKey, sizeof(musicKitKey));
         Format(musicKitLocStr, sizeof(musicKitLocStr), "%T", musicKitKey, client);
         if (StrEqual(clientMusicKit, musicKitKey)) {
             Format(musicKitDispStr, sizeof(musicKitDispStr), "%T", "CSGO_MUSIC_KIT_SELECTED", client, musicKitLocStr);
@@ -112,7 +113,6 @@ public Action Cmd_MusicKit(int client, int args) {
     }
     menu.Display(client, MENU_TIME_FOREVER);
 
-    delete musicKitEntries;
     return Plugin_Handled;
 }
 

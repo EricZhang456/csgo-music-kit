@@ -70,6 +70,7 @@ void MakeMusicKitMapping(StringMap map) {
     map.SetValue("meechydarko_01", 66);
     map.SetValue("sullivanking_01", 67);
 }
+
 void MakeMusicKitList(ArrayList list) {
     list.PushString("valve_csgo");
     list.PushString("danielsadowski_01");
