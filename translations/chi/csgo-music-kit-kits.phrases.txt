@@ -252,7 +252,7 @@
     }
     "hlb_01"
     {
-        "chi" "Humanity\'s Last Breath - 虚空"
+        "chi" "Humanity's Last Breath - 虚空"
     }
     "juelz_01"
     {

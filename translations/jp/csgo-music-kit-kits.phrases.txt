@@ -4,7 +4,7 @@
 {
     "ianhultquist_01"
     {
-        "jp" "Ian Hultquist、Lion\'s Mouth"
+        "jp" "Ian Hultquist、Lion's Mouth"
     }
     "darude_01"
     {
@@ -68,7 +68,7 @@
     }
     "hlb_01"
     {
-        "jp" "Humanity\'s Last Breath、Void"
+        "jp" "Humanity's Last Breath、Void"
     }
     "juelz_01"
     {

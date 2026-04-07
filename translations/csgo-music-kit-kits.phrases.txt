@@ -28,7 +28,7 @@
     }
     "dren_01"
     {
-        "en" "Dren, Death\'s Head Demolition"
+        "en" "Dren, Death's Head Demolition"
     }
     "austinwintory_01"
     {
@@ -104,7 +104,7 @@
     }
     "ianhultquist_01"
     {
-        "en" "Ian Hultquist, Lion\'s Mouth"
+        "en" "Ian Hultquist, Lion's Mouth"
     }
     "newbeatfund_01"
     {
@@ -184,7 +184,7 @@
     }
     "neckdeep_01"
     {
-        "en" "Neck Deep, Life\'s Not Out To Get You"
+        "en" "Neck Deep, Life's Not Out To Get You"
     }
     "roam_01"
     {
@@ -256,7 +256,7 @@
     }
     "hlb_01"
     {
-        "en" "Humanity\'s Last Breath, Void"
+        "en" "Humanity's Last Breath, Void"
     }
     "juelz_01"
     {
