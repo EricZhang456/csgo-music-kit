@@ -37,7 +37,7 @@ jobs:
       - name: Build plugins
         run: |
           cd scripting
-          ./compile.sh *.sp
+          ./compile.sh csgo-music-kit.sp
 
       - name: Package plugins
         run: |
