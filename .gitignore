@@ -1,0 +1,7 @@
+scripting/compiled/
+plugins/
+scripting/spcomp*
+scripting/compile*
+.vscode/
+.DS_Store
+.venv
