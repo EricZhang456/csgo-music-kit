@@ -170,10 +170,6 @@
     {
         "en" "Denzel Curry, ULTIMATE"
     }
-    "valve_csgo_01"
-    {
-        "en" "CS:GO"
-    }
     "beartooth_02"
     {
         "en" "Beartooth, Aggressive"

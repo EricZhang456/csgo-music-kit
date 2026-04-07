@@ -1,4 +1,4 @@
-#!/usr/env/bin python3
+#!/usr/bin/env python3
 
 # pylint: disable=all
 
@@ -78,6 +78,16 @@ with open(os.path.join(WORKING_DIR, "scripting", "csgo_music_kit_mapping.sp"), "
             continue
         sm_mapping.write(f"    map.SetValue(\"{music_kit_name}\", {key});\n")
     sm_mapping.write("}\n")
+    sm_mapping.write("void MakeMusicKitList(ArrayList list) {\n")
+    sm_mapping.write("    list.PushString(\"valve_csgo\");\n")
+    for key, value in music_definitions.items():
+        music_kit_name: str | None = value.get("name")
+        if not music_kit_name:
+            raise RuntimeError(f"Encountered empty value when getting music kit name for {key}")
+        if key in {"1", "2"} or music_kit_name.startswith("valve_csgo"):
+            continue
+        sm_mapping.write(f"    list.PushString(\"{music_kit_name}\");\n")
+    sm_mapping.write("}\n")
 
 CSGO_MUSIC_KIT_PHRASES_NAME = "csgo-music-kit-kits.phrases.txt"
 
@@ -103,6 +113,8 @@ for sm_lang, source_lang in SOURCEMOD_LANGUAGES.items():
                 if current_language_phrases.get("valve_csgo") is not None:
                     continue
                 current_language_phrases["valve_csgo"] = {"en": "CS:GO"}
+                continue
+            if music_kit_name.startswith("valve_csgo"):
                 continue
             music_lang_token_key: str | None = music_item.get("loc_name")
             if not music_lang_token_key:
