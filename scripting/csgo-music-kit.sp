@@ -71,7 +71,6 @@ public void Event_PlayerSpawn(Event event, const char[] name, bool dontBroadcast
     if (cookieShowHintWhenEnter.GetInt(client, cvarShowHintByDefault.BoolValue ? 1 : 0)) {
         PrintToChat(client, "%t", "CSGO_MUSIC_KIT_CHAT_HINT");
     }
-    SetClientMusicKit(client);
 }
 
 public void OnClientCookiesCached(int client) {
@@ -84,6 +83,7 @@ public void OnClientCookiesCached(int client) {
     if (!strlen(clientMusicKit)) {
         cookieClientMusicKit.Set(client, DEFAULT_MUSIC_KIT);
     }
+    SetClientMusicKit(client);
 }
 
 public Action Cmd_MusicKit(int client, int args) {
