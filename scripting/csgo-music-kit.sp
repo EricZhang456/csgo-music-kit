@@ -11,7 +11,7 @@ public Plugin myinfo = {
     name = "CSGO Music Kit",
     author = "Eric Zhang",
     description = "Select your CSGO music kit",
-    version = "1.0",
+    version = "1.0.1",
     url = "https://ericaftereric.top"
 };
 
