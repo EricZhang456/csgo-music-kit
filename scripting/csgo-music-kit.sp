@@ -23,6 +23,9 @@ ConVar cvarShowHintByDefault;
 Cookie cookieShowHintWhenEnter;
 Cookie cookieClientMusicKit;
 
+bool postAdminCheckDone[MAXPLAYERS + 1];
+bool cookieCacheDone[MAXPLAYERS + 1];
+
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max) {
     char game[PLATFORM_MAX_PATH];
     GetGameFolderName(game, sizeof(game));
@@ -83,7 +86,22 @@ public void OnClientCookiesCached(int client) {
     if (!strlen(clientMusicKit)) {
         cookieClientMusicKit.Set(client, DEFAULT_MUSIC_KIT);
     }
-    SetClientMusicKit(client);
+    cookieCacheDone[client] = true;
+    if (postAdminCheckDone[client]) {
+        SetClientMusicKit(client);
+    }
+}
+
+public void OnClientPostAdminCheck(int client) {
+    postAdminCheckDone[client] = true;
+    if (cookieCacheDone[client]) {
+        SetClientMusicKit(client);
+    }
+}
+
+public void OnClientDisconnect(int client) {
+    postAdminCheckDone[client] = false;
+    cookieCacheDone[client] = false;
 }
 
 public Action Cmd_MusicKit(int client, int args) {
@@ -135,7 +153,8 @@ bool IsValidClient(int client) {
 }
 
 void SetClientMusicKit(int client) {
-    if (!GetEntProp(client, Prop_Send, "m_unMusicID")) {
+    int clientCurrentMusicId = GetEntProp(client, Prop_Send, "m_unMusicID");
+    if (!clientCurrentMusicId) {
         return;
     }
     char clientMusicKit[BASE_STR_LEN];
@@ -145,6 +164,9 @@ void SetClientMusicKit(int client) {
     }
     int musicKitId;
     if (!musicKitMapping.GetValue(clientMusicKit, musicKitId)) {
+        return;
+    }
+    if (clientCurrentMusicId == musicKitId) {
         return;
     }
     SetEntProp(client, Prop_Send, "m_unMusicID", musicKitId);
