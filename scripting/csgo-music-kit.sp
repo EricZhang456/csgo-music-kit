@@ -23,9 +23,6 @@ ConVar cvarShowHintByDefault;
 Cookie cookieShowHintWhenEnter;
 Cookie cookieClientMusicKit;
 
-bool postAdminCheckDone[MAXPLAYERS + 1];
-bool cookieCacheDone[MAXPLAYERS + 1];
-
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max) {
     char game[PLATFORM_MAX_PATH];
     GetGameFolderName(game, sizeof(game));
@@ -56,6 +53,7 @@ public void OnPluginStart() {
     RegConsoleCmd("sm_music", Cmd_MusicKit, "Select your music kit.");
 
     HookEvent("player_spawn", Event_PlayerSpawn);
+    HookEvent("player_team", Event_PlayerTeam);
 
     AutoExecConfig();
 }
@@ -69,6 +67,9 @@ public void OnHintCookieMenu(int client, CookieMenuAction action, any info, char
 public void Event_PlayerSpawn(Event event, const char[] name, bool dontBroadcast) {
     int client = GetClientOfUserId(event.GetInt("userid"));
     if (!IsValidClient(client)) {
+        return;
+    }
+    if (!AreClientCookiesCached(client)) {
         return;
     }
     if (cookieShowHintWhenEnter.GetInt(client, cvarShowHintByDefault.BoolValue ? 1 : 0)) {
@@ -86,22 +87,17 @@ public void OnClientCookiesCached(int client) {
     if (!strlen(clientMusicKit)) {
         cookieClientMusicKit.Set(client, DEFAULT_MUSIC_KIT);
     }
-    cookieCacheDone[client] = true;
-    if (postAdminCheckDone[client]) {
-        SetClientMusicKit(client);
-    }
 }
 
-public void OnClientPostAdminCheck(int client) {
-    postAdminCheckDone[client] = true;
-    if (cookieCacheDone[client]) {
-        SetClientMusicKit(client);
+public void Event_PlayerTeam(Event event, const char[] name, bool dontBroadcast) {
+    int client = GetClientOfUserId(event.GetInt("userid"));
+    if (!IsValidClient(client)) {
+        return;
     }
-}
-
-public void OnClientDisconnect(int client) {
-    postAdminCheckDone[client] = false;
-    cookieCacheDone[client] = false;
+    if (!AreClientCookiesCached(client)) {
+        return;
+    }
+    SetClientMusicKit(client);
 }
 
 public Action Cmd_MusicKit(int client, int args) {
@@ -153,6 +149,9 @@ bool IsValidClient(int client) {
 }
 
 void SetClientMusicKit(int client) {
+    if (!AreClientCookiesCached(client)) {
+        return;
+    }
     int clientCurrentMusicId = GetEntProp(client, Prop_Send, "m_unMusicID");
     if (!clientCurrentMusicId) {
         return;
